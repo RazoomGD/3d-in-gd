@@ -3,7 +3,7 @@ use std::io::prelude::*;
 use flate2::{read::{GzDecoder, GzEncoder}, Compression};
 
 
-pub fn dat_to_xml(dat: &String) -> Result<String, &str> {
+pub fn dat_to_xml(dat: &String) -> Result<String, &'static str> {
     // decode robtop's .dat format
     let base64_str: String = dat.trim().chars()
         .map(|c| (c as u8 ^ 0xB) as char)

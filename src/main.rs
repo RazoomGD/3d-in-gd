@@ -1,10 +1,8 @@
 use r3dgd::run;
 
-
-
 fn main() {
-    println!("start");
-    run();
-    println!("end");
-
+    match run() {
+        Ok(_) => {println!("SUCCESS!")},
+        Err(e) => {println!("ERROR: {e}")}
+    }
 }
