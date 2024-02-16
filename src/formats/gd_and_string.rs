@@ -114,7 +114,9 @@ fn insert_level(xml: &String, level_name: &String, level_string: &String, ) -> R
 
     let new_xml = doc.write_str().unwrap();
 
-    Ok(new_xml.replace("<future_level/>", &default_level_settings(level_name, level_string)))
+    Ok(new_xml.replace("<future_level/>", &default_level_settings(
+        &level_name.replace("<", "").replace(">", ""), 
+        level_string)))
 }
 
 
