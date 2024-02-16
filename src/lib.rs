@@ -1,13 +1,10 @@
-// facade
-
 mod formats;
-mod utils;
 
 use std::{fs::{self, File}, io::Write, path::Path};
 
 use text_io::read;
 
-use crate::formats::{gd_and_string::gd_to_string, level_and_string::string_to_level};
+use crate::formats::{gd_and_string::{gd_to_string, string_to_gd}, level_and_string::{level_to_string, string_to_level}};
 
 // formats info:
 // - Level - readable format with preamble and object info
@@ -98,7 +95,7 @@ pub fn run() -> Result<(), &'static str> {
         // res
     };
 
-    let output_format = if target_path == "" {
+    let output_format = if target_path == "" || target_path.contains("CCLocalLevels") {
         OutputFormats::GD
     } else {
         OutputFormats::LEVEL
@@ -149,8 +146,8 @@ pub fn run() -> Result<(), &'static str> {
     // convert to output format
     match config.output_format {
         OutputFormats::GD => {
-            //TODO
-            return Err("Not implemented yet");
+            let level_string = level_to_string(&level, true)?; //anyway it checks preamble
+            string_to_gd(&config.level_name, &level_string, &config.cc_local_levels_path)?;
         }
 
         OutputFormats::LEVEL => {

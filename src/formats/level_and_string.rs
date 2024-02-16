@@ -3,7 +3,7 @@ use std::io::prelude::*;
 use flate2::{read::{GzDecoder, GzEncoder}, Compression};
 
 
-pub fn level_to_string(level: &String, add_preamble: bool) -> Result<String, &str> {
+pub fn level_to_string(level: &String, add_preamble: bool) -> Result<String, &'static str> {
     let level = match add_preamble {
         true => {
             let mut lvl = default_preamble().to_owned();
