@@ -1,6 +1,6 @@
 mod formats;
 
-use std::{fs::{self, File}, io::Write, path::Path};
+use std::{env, fs::{self, File}, io::Write, path::Path};
 
 use text_io::read;
 
@@ -55,14 +55,20 @@ pub fn run() -> Result<(), &'static str> {
     };
     println!("--------------------");
     let cc_local_levels_path = if src_path == "" || target_path == "" {
-        println!("To insert/export directly into/from gd enter path to \"CCLocalLevels.dat\" file:");
-        loop {
-            let mut path: String = read!("{}\n");
-            path = path.trim().to_string();
-            if Path::new(&path).exists() {
-                break path
+        // at first attempts to find file automatically
+        let maybe_path = env::home_dir().unwrap_or_default().as_path().join("AppData").join("Local").join("GeometryDash").join("CCLocalLevels.dat");
+        if maybe_path.exists() {
+            maybe_path.to_str().unwrap().to_string()
+        } else {
+            println!("To insert/export directly into/from gd enter path to \"CCLocalLevels.dat\" file:");
+            loop {
+                let mut path: String = read!("{}\n");
+                path = path.trim().to_string();
+                if Path::new(&path).exists() {
+                    break path
+                }
+                println!("File \"{}\" not exists! Try again: ", path); 
             }
-            println!("File \"{}\" not exists! Try again: ", path); 
         }
     } else {
         "".to_string()
