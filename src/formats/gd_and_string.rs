@@ -24,7 +24,7 @@ pub fn string_to_gd(level_name: &String, level_string: &String, cc_local_levels_
 // returns string format
 pub fn gd_to_string(level_name: &String, cc_local_levels_path: &String) -> Result<String, &'static str> {
     let cc_local_levels_content = match fs::read_to_string(cc_local_levels_path) {
-        Ok(s) => s,
+        Ok(s) => s.lines().take(1).collect(),
         Err(_) => {return Err("can't read \"CCLocalLevels.dat\" file");},
     };
     let xml = dat_to_xml(&cc_local_levels_content)?;

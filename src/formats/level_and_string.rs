@@ -4,7 +4,7 @@ use flate2::{read::{GzDecoder, GzEncoder}, Compression};
 
 
 pub fn level_to_string(level: &String, add_preamble: bool) -> Result<String, &'static str> {
-    let level = match add_preamble {
+    let level = match add_preamble && (!level.contains("|")) { //silly check if level really has no preamble
         true => {
             let mut lvl = default_preamble().to_owned();
             lvl.push_str(level);
