@@ -8,7 +8,7 @@ use super::xml_and_dat::{dat_to_xml, xml_to_dat};
 // tskes string-level, inserts it into gd
 pub fn string_to_gd(level_name: &String, level_string: &String, cc_local_levels_path: &String) -> Result<(), &'static str> {
     let cc_local_levels_content = match fs::read_to_string(cc_local_levels_path) {
-        Ok(s) => s,
+        Ok(s) => s.lines().take(1).collect(),
         Err(_) => {return Err("can't read \"CCLocalLevels.dat\" file");},
     };
     let xml = dat_to_xml(&cc_local_levels_content)?;
